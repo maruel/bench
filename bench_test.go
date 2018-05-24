@@ -153,3 +153,19 @@ func BenchmarkDivisionFloat64(b *testing.B) {
 	}
 	fmt.Sprintln(t)
 }
+
+func BenchmarkShiftInt32(b *testing.B) {
+	t := int32(1<<31 - 1)
+	for i := 0; i < b.N; i++ {
+		t >>= 1
+	}
+	fmt.Sprintln(t)
+}
+
+func BenchmarkShiftInt64(b *testing.B) {
+	t := int64(1<<63 - 1)
+	for i := 0; i < b.N; i++ {
+		t >>= 1
+	}
+	fmt.Sprintln(t)
+}
