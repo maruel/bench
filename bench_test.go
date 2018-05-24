@@ -118,8 +118,17 @@ func getFunc() func(int) int {
 // These benchmarks tests the int64 and float64 division performance. This is
 // because ARM instruction set doesn't declare integer division.
 
+func BenchmarkDivisionInt32(b *testing.B) {
+	t := int32(1<<31 - 1)
+	d := int32(b.N)
+	for i := 0; i < b.N; i++ {
+		t /= d
+	}
+	fmt.Sprintln(t)
+}
+
 func BenchmarkDivisionInt64(b *testing.B) {
-	t := int64(12345678901234)
+	t := int64(1<<63 - 1)
 	d := int64(b.N)
 	for i := 0; i < b.N; i++ {
 		t /= d
@@ -127,8 +136,17 @@ func BenchmarkDivisionInt64(b *testing.B) {
 	fmt.Sprintln(t)
 }
 
+func BenchmarkDivisionFloat32(b *testing.B) {
+	t := float32(1e38)
+	d := float32(b.N)
+	for i := 0; i < b.N; i++ {
+		t /= d
+	}
+	fmt.Sprintln(t)
+}
+
 func BenchmarkDivisionFloat64(b *testing.B) {
-	t := float64(1e100)
+	t := float64(1e308)
 	d := float64(b.N)
 	for i := 0; i < b.N; i++ {
 		t /= d
