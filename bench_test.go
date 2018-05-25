@@ -147,6 +147,15 @@ func BenchmarkDivision(b *testing.B) {
 		}
 		fmt.Sprintln(t)
 	})
+	// This can't be faster than an int64 division, right? Right?
+	b.Run("Int64ConvertedtoFloat64", func(b *testing.B) {
+		t := int64(1<<63 - 1)
+		d := int64(b.N)
+		for i := 0; i < b.N; i++ {
+			t = int64(float64(t) / float64(d))
+		}
+		fmt.Sprintln(t)
+	})
 }
 
 func BenchmarkShift(b *testing.B) {
