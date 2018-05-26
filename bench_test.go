@@ -180,7 +180,7 @@ func BenchmarkShift(b *testing.B) {
 }
 
 func BenchmarkFormat(b *testing.B) {
-	b.Run("PrintfInt32", func(b *testing.B) {
+	b.Run("FprintfInt32", func(b *testing.B) {
 		b.ReportAllocs()
 		buf := bytes.Buffer{}
 		for i := 0; i < b.N; i++ {
@@ -188,7 +188,7 @@ func BenchmarkFormat(b *testing.B) {
 			buf.Reset()
 		}
 	})
-	b.Run("PrintfInt64", func(b *testing.B) {
+	b.Run("FprintfInt64", func(b *testing.B) {
 		b.ReportAllocs()
 		buf := bytes.Buffer{}
 		for i := 0; i < b.N; i++ {
@@ -196,7 +196,7 @@ func BenchmarkFormat(b *testing.B) {
 			buf.Reset()
 		}
 	})
-	b.Run("PrintfFloat32f", func(b *testing.B) {
+	b.Run("FprintfFloat32f", func(b *testing.B) {
 		b.ReportAllocs()
 		buf := bytes.Buffer{}
 		for i := 0; i < b.N; i++ {
@@ -204,7 +204,7 @@ func BenchmarkFormat(b *testing.B) {
 			buf.Reset()
 		}
 	})
-	b.Run("PrintfFloat64f", func(b *testing.B) {
+	b.Run("FprintfFloat64f", func(b *testing.B) {
 		b.ReportAllocs()
 		buf := bytes.Buffer{}
 		for i := 0; i < b.N; i++ {
@@ -212,7 +212,7 @@ func BenchmarkFormat(b *testing.B) {
 			buf.Reset()
 		}
 	})
-	b.Run("PrintfFloat32g", func(b *testing.B) {
+	b.Run("FprintfFloat32g", func(b *testing.B) {
 		b.ReportAllocs()
 		buf := bytes.Buffer{}
 		for i := 0; i < b.N; i++ {
@@ -220,7 +220,7 @@ func BenchmarkFormat(b *testing.B) {
 			buf.Reset()
 		}
 	})
-	b.Run("PrintfFloat64g", func(b *testing.B) {
+	b.Run("FprintfFloat64g", func(b *testing.B) {
 		b.ReportAllocs()
 		buf := bytes.Buffer{}
 		for i := 0; i < b.N; i++ {
@@ -241,6 +241,14 @@ func BenchmarkFormat(b *testing.B) {
 		buf := bytes.Buffer{}
 		for i := 0; i < b.N; i++ {
 			buf.WriteString(strconv.FormatInt(int64(i), 10))
+			buf.Reset()
+		}
+	})
+	b.Run("SprintfInt32", func(b *testing.B) {
+		b.ReportAllocs()
+		buf := bytes.Buffer{}
+		for i := 0; i < b.N; i++ {
+			buf.WriteString(fmt.Sprintf("%d", int32(i)))
 			buf.Reset()
 		}
 	})
