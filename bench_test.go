@@ -1,7 +1,9 @@
 package bench
 
 import (
+	"bytes"
 	"fmt"
+	"strconv"
 	"testing"
 )
 
@@ -158,6 +160,8 @@ func BenchmarkDivision(b *testing.B) {
 	})
 }
 
+// BenchmarkShift tests bitshift, mostly to test performance of int64 on 32
+// bits platform.
 func BenchmarkShift(b *testing.B) {
 	b.Run("Int32", func(b *testing.B) {
 		t := int32(1<<31 - 1)
@@ -172,5 +176,64 @@ func BenchmarkShift(b *testing.B) {
 			t >>= 1
 		}
 		fmt.Sprintln(t)
+	})
+}
+
+func BenchmarkFormat(b *testing.B) {
+	b.Run("PrintfInt32", func(b *testing.B) {
+		b.ReportAllocs()
+		buf := bytes.Buffer{}
+		for i := 0; i < b.N; i++ {
+			fmt.Fprintf(&buf, "%d", int32(i))
+			buf.Reset()
+		}
+	})
+	b.Run("PrintfInt64", func(b *testing.B) {
+		b.ReportAllocs()
+		buf := bytes.Buffer{}
+		for i := 0; i < b.N; i++ {
+			fmt.Fprintf(&buf, "%d", int64(i))
+			buf.Reset()
+		}
+	})
+	b.Run("PrintfFloat32f", func(b *testing.B) {
+		b.ReportAllocs()
+		buf := bytes.Buffer{}
+		for i := 0; i < b.N; i++ {
+			fmt.Fprintf(&buf, "%f", float32(i))
+			buf.Reset()
+		}
+	})
+	b.Run("PrintfFloat64f", func(b *testing.B) {
+		b.ReportAllocs()
+		buf := bytes.Buffer{}
+		for i := 0; i < b.N; i++ {
+			fmt.Fprintf(&buf, "%f", float64(i))
+			buf.Reset()
+		}
+	})
+	b.Run("PrintfFloat32g", func(b *testing.B) {
+		b.ReportAllocs()
+		buf := bytes.Buffer{}
+		for i := 0; i < b.N; i++ {
+			fmt.Fprintf(&buf, "%g", float32(i))
+			buf.Reset()
+		}
+	})
+	b.Run("PrintfFloat64g", func(b *testing.B) {
+		b.ReportAllocs()
+		buf := bytes.Buffer{}
+		for i := 0; i < b.N; i++ {
+			fmt.Fprintf(&buf, "%g", float64(i))
+			buf.Reset()
+		}
+	})
+	b.Run("Itoa", func(b *testing.B) {
+		b.ReportAllocs()
+		buf := bytes.Buffer{}
+		for i := 0; i < b.N; i++ {
+			buf.WriteString(strconv.Itoa(i))
+			buf.Reset()
+		}
 	})
 }
