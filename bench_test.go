@@ -236,4 +236,12 @@ func BenchmarkFormat(b *testing.B) {
 			buf.Reset()
 		}
 	})
+	b.Run("FormatInt", func(b *testing.B) {
+		b.ReportAllocs()
+		buf := bytes.Buffer{}
+		for i := 0; i < b.N; i++ {
+			buf.WriteString(strconv.FormatInt(int64(i), 10))
+			buf.Reset()
+		}
+	})
 }
