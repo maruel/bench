@@ -133,6 +133,18 @@ func BenchmarkDivision(b *testing.B) {
 		}
 		fmt.Sprintln(t)
 	})
+	b.Run("Int64Checked", func(b *testing.B) {
+		t := int64(1<<63 - 1)
+		d := int64(b.N)
+		if d == 0 {
+			b.Fatal("the compiler should leverage this condition to assert that d cannot be zero")
+			return
+		}
+		for i := 0; i < b.N; i++ {
+			t /= d
+		}
+		fmt.Sprintln(t)
+	})
 	b.Run("Float32", func(b *testing.B) {
 		t := float32(1e38)
 		d := float32(b.N)
